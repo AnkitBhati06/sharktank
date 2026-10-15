@@ -73,13 +73,28 @@ export function Chart() {
         });
       });
 
+      // Phones: the depth ladder fills in rung by rung and the readings count down to depth.
       mm.add(MQ.lite, () => {
-        gsap.from(q(".ladder .bar"), {
-          scaleX: 0,
-          duration: 1.1,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: { trigger: q(".ladder")[0], start: "top 85%", once: true },
+        const tl = gsap.timeline({ scrollTrigger: { trigger: q(".ladder")[0], start: "top 80%", once: true } });
+        q(".ladder li").forEach((li, i) => {
+          const bar = li.querySelector(".bar");
+          const read = li.querySelector<HTMLElement>(".d");
+          const depth = dives[i].depth;
+          const meter = { m: 0 };
+          tl.from(bar, { scaleX: 0, duration: 1.1, ease: "power3.out" }, i * 0.18)
+            .from(li.querySelector("p"), { opacity: 0, x: -12, duration: 0.6, ease: "power2.out" }, i * 0.18 + 0.15)
+            .to(
+              meter,
+              {
+                m: depth,
+                duration: 1.1,
+                ease: "power3.out",
+                onUpdate: () => {
+                  if (read) read.textContent = `−${Math.round(meter.m / 10) * 10} m`;
+                },
+              },
+              i * 0.18,
+            );
         });
       });
 

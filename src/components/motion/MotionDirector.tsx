@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { MQ } from "@/lib/mq";
 import { inView, startMotion, type Kit } from "@/lib/motion";
 
 /**
@@ -9,9 +8,8 @@ import { inView, startMotion, type Kit } from "@/lib/motion";
  * and, once every section has created its pins, adds the shared reveals so
  * they are measured against the final, pin-spaced layout:
  *
- *  [data-lines]       heading line-mask reveal (desktop/tablet); fade-up on phones
+ *  [data-lines]       heading line-mask reveal (each line rises into place)
  *  [data-reveal]      fade-up, 24px, 0.6s, once
- *  [data-reveal-lite] fade-up on phones only (desktop has its own scrub)
  *  [data-wave]        ink band's wave edge flattens as the band scrolls in
  *
  * Anything already on screen when motion starts is left as it is.
@@ -67,7 +65,8 @@ function sharedReveals({ gsap, ScrollTrigger }: Kit) {
     });
   };
 
-  mm.add(MQ.full, () => {
+  // Heading line-rise and the ink bands' wave edge: on every screen size.
+  mm.add("(prefers-reduced-motion: no-preference)", () => {
     const reverts: (() => void)[] = [];
     below("[data-lines]").forEach((el) => {
       const { words, lineOf, revert } = maskWords(el);
@@ -80,7 +79,6 @@ function sharedReveals({ gsap, ScrollTrigger }: Kit) {
         scrollTrigger: { trigger: el, start: "top 80%", once: true },
       });
     });
-    fadeUp(below("[data-reveal]"));
     gsap.utils.toArray<HTMLElement>("[data-wave]").forEach((w) => {
       gsap.fromTo(
         w,
@@ -91,7 +89,7 @@ function sharedReveals({ gsap, ScrollTrigger }: Kit) {
     return () => reverts.forEach((r) => r());
   });
 
-  mm.add(MQ.lite, () => fadeUp(below("[data-reveal], [data-reveal-lite], [data-lines]")));
+  mm.add("(prefers-reduced-motion: no-preference)", () => fadeUp(below("[data-reveal]")));
 
   return () => mm.revert();
 }

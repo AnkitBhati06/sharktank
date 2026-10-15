@@ -72,14 +72,24 @@ export function Hero() {
           .to(q(".hero-water"), { opacity: 1, duration: 0.12 }, 0.88);
       });
 
-      // Phones: no pin, a gentle fade as the hero leaves.
+      // Phones: no pin. As the hero scrolls away the porthole swells (max 1.8x, so it
+      // never covers the buttons), the ring and title fade, and the water closes in.
       mm.add(MQ.lite, () => {
-        gsap.to(q(".stage, .hero-cta, .hero-note"), {
-          opacity: 0.25,
-          y: -30,
-          ease: "none",
-          scrollTrigger: { trigger: hero, start: "center 40%", end: "bottom top", scrub: true },
+        const tl = gsap.timeline({
+          defaults: { ease: "none", force3D: true },
+          scrollTrigger: {
+            trigger: hero,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+            onToggle: layerWhileActive([scaler, ...q(".p-ring, .rivets, .glass .txt, .orbit, .hero-water")]),
+          },
         });
+        tl.to(scaler, { scale: 1.8, ease: "power1.in", duration: 1 }, 0)
+          .to(q(".p-ring, .rivets"), { opacity: 0, duration: 0.4 }, 0.15)
+          .to(q(".glass .txt"), { opacity: 0, y: -20, duration: 0.35 }, 0.3)
+          .to(q(".orbit"), { opacity: 0, duration: 0.4 }, 0)
+          .to(q(".hero-water"), { opacity: 0.9, duration: 0.25 }, 0.75);
       });
 
       // Pause the ambient loops (orbits, rays, snow, shark, bulb) once the hero is off screen.

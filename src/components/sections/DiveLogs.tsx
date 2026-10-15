@@ -138,17 +138,28 @@ export function DiveLogs() {
         };
       });
 
-      // Everything else: plain list, cards fade up once.
+      // Everything else (phones, tablets, short screens): a plain list where each
+      // card rises out of the deep and settles as it scrolls in, its plate drifting.
       mm.add("(max-width: 1023.98px) and (prefers-reduced-motion: no-preference), (max-height: 699.98px) and (prefers-reduced-motion: no-preference)", () => {
-        cards.forEach((card) =>
-          gsap.from(card, {
-            opacity: 0,
-            y: 24,
-            duration: 0.6,
-            ease: "power2.out",
-            scrollTrigger: { trigger: card, start: "top 90%", once: true },
-          }),
-        );
+        cards.forEach((card, i) => {
+          const plate = card.querySelector(".plate-in");
+          const tl = gsap.timeline({
+            defaults: { ease: "none", force3D: true },
+            scrollTrigger: {
+              trigger: card,
+              start: "top bottom",
+              end: "top 55%",
+              scrub: true,
+              onToggle: layerWhileActive([card, plate]),
+            },
+          });
+          tl.fromTo(
+            card,
+            { y: 90, scale: 0.9, rotation: i % 2 ? 2 : -2, opacity: 0.35 },
+            { y: 0, scale: 1, rotation: 0, opacity: 1, ease: "power2.out" },
+            0,
+          ).fromTo(plate, { y: 40 }, { y: 0 }, 0);
+        });
       });
 
       return () => mm.revert();

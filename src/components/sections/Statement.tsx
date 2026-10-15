@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { statement } from "@/content/event";
 import { Rich } from "@/lib/rich";
-import { MQ } from "@/lib/mq";
 import { useMotion } from "@/lib/motion";
 import { Wave } from "../Wave";
 
@@ -17,7 +16,7 @@ export function Statement() {
   useMotion(
     ({ gsap }) => {
       const mm = gsap.matchMedia();
-      mm.add(MQ.full, () => {
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
         const ws = gsap.utils.toArray<HTMLElement>(".st .w", root.current);
         gsap.fromTo(
           ws,
@@ -42,7 +41,7 @@ export function Statement() {
         <h2 className="label kicker" id="statement-label">
           {statement.label}
         </h2>
-        <p className="st" data-reveal-lite>
+        <p className="st">
           {words.map((w, i) => (
             <span key={i}>
               <span className="w">{w}</span>
