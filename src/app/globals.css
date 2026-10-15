@@ -308,7 +308,6 @@ button {
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  margin-right: auto;
   min-width: 0;
 }
 .mark svg {
@@ -381,6 +380,20 @@ button {
   vertical-align: bottom;
 }
 .chap .roll span {
+  display: block;
+}
+/* organiser mark (E-Cell, IIIT Vadodara) beside the event brand */
+.org {
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  margin-right: auto;
+  border-left: 1px solid var(--rule);
+  height: 34px;
+}
+.org img {
+  width: auto;
+  height: 34px;
   display: block;
 }
 .prog {
@@ -827,11 +840,16 @@ button {
 .ink .accent em {
   color: var(--d4-on-ink);
 }
-/* line-mask reveal wrappers (SplitText) */
-.line-mask {
+/* line-mask reveal: each word rises inside its own clipped box (MotionDirector) */
+.lm {
+  display: inline-block;
   overflow: clip;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
+  vertical-align: top;
+  padding: 0 0.08em 0.1em 0;
+  margin: 0 -0.08em -0.1em 0;
+}
+.lm > span {
+  display: inline-block;
 }
 .lead {
   max-width: 58ch;
@@ -1836,6 +1854,20 @@ footer {
   background-color: var(--paper);
   padding-block: 28px calc(40px + env(safe-area-inset-bottom, 0px));
 }
+.org-credit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding-block: 8px 48px;
+}
+.org-credit .label {
+  color: var(--muted-t);
+}
+.org-credit img {
+  width: auto;
+  height: clamp(110px, 16vw, 150px);
+}
 .foot {
   display: flex;
   flex-wrap: wrap;
@@ -2003,6 +2035,11 @@ footer {
 }
 @media (max-width: 400px) {
   .mark small {
+    display: none;
+  }
+}
+@media (max-width: 359.98px) {
+  .org {
     display: none;
   }
 }

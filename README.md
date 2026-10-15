@@ -64,13 +64,13 @@ It also exercises the menu (focus moves to Close, Escape closes it), the rules t
 
 | Check | Budget | Result |
 |---|---|---|
-| Lighthouse mobile, Performance | ≥ 90 | 97–99 (5 runs) |
-| LCP | < 2.5 s | 2.11–2.23 s |
+| Lighthouse mobile, Performance | ≥ 90 | 97–98 (4 runs) |
+| LCP | < 2.5 s | 2.32–2.46 s |
 | CLS | < 0.05 | 0 |
-| TBT | — | 84–158 ms |
+| TBT | — | 65–135 ms |
 | Lighthouse Accessibility / Best Practices / SEO | — | 100 / 100 / 100 |
-| JS, first load (gzip) | — | 121 KB |
-| JS, total incl. lazy GSAP/Lenis chunks (gzip) | < 180 KB | ~174 KB |
+| JS, first load (gzip) | — | 122 KB |
+| JS, total incl. lazy GSAP/Lenis chunks (gzip) | < 180 KB | ~172 KB |
 | Long tasks while scrolling, 390×844, 4× CPU | none > 50 ms | 0 (3 runs) |
 | Long tasks while scrolling, 1440×900, 4× CPU | none > 50 ms | **4–7, not met in this environment, see below** |
 | e2e, all sizes, normal and reduced motion | pass | pass |
@@ -81,11 +81,13 @@ It also exercises the menu (focus moves to Close, Escape closes it), the rules t
 
 - **Only `transform`, `opacity` and SVG `stroke-dashoffset` animate.** The only other transitions are the button colour, the menu's circular `clip-path` (on click, never on scroll) and the rules expander's `grid-template-rows` (on click).
 - **No scroll listeners.** Lenis is driven by `gsap.ticker` and calls `ScrollTrigger.update`; every scroll effect is a ScrollTrigger.
-- **Motion never blocks first paint.** Sections register their setup with `useMotion` (`src/lib/motion.ts`). After the first paint and an idle callback, GSAP, ScrollTrigger, SplitText and Lenis are loaded with a dynamic `import()`. Each setup then runs in its own task, in page order, followed by one `ScrollTrigger.refresh()`.
+- **Motion never blocks first paint.** Sections register their setup with `useMotion` (`src/lib/motion.ts`). After the first paint and an idle callback, GSAP, ScrollTrigger and Lenis are loaded with a dynamic `import()`. Each setup then runs in its own task, in page order, followed by one `ScrollTrigger.refresh()`.
 - **Pins** use ScrollTrigger `pin` with pin spacing. With mouse/trackpad scrolling they are transform pins, so entering or leaving a pin costs no page layout; touch devices keep fixed pins. `will-change` is applied only while a pin is active.
 - **Phones (< 768 px) and `prefers-reduced-motion`:** no pins, no scrubbed scaling, no Lenis for reduced motion. Content uses 24 px / 0.6 s fade-ups, triggered once, and stays fully visible under reduced motion.
 - Ambient loops (orbits, rays, marine snow, shark, bulb, pulsing pins) pause while their section is off screen.
 - `lenis.css` is deliberately **not** imported. Its selectors depend on classes Lenis re-applies to `<html>` at every scroll start and stop, which restyled the whole page each time (see the comment in `globals.css`).
+- **Logos:** the E-Cell logo (`src/assets/`) appears as the organiser mark in the header and as an "Organised by" credit above the footer. Logos go through Next's image optimiser (AVIF/WebP `srcset`) via `src/lib/image.ts`. That is `next/image`'s own `getImageProps`, run on the server only, so the image client component (~5 KB) stays out of the browser bundle.
+- Heading reveals use a small word mask (in `MotionDirector`) instead of a split-text plugin.
 - JetBrains Mono and the italic serif appear only below the fold. Their files load after the `load` event (`html.late-fonts`), so they stay off the critical path.
 
 ## Structure

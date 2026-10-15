@@ -1,3 +1,6 @@
+import { imageProps } from "@/lib/image";
+import ecellMark from "@/assets/ecell-mark.png";
+import { event } from "@/content/event";
 import { Header } from "@/components/Header";
 import { Cursor } from "@/components/Cursor";
 import { StickyCta } from "@/components/StickyCta";
@@ -15,6 +18,9 @@ import { Rules } from "@/components/sections/Rules";
 import { Crew } from "@/components/sections/Crew";
 import { End } from "@/components/sections/End";
 
+// Optimised like next/image (AVIF/WebP srcset), rendered as a plain <img> on the server.
+const markImg = imageProps({ src: ecellMark, alt: event.organiser, height: 34, sizes: "29px" });
+
 export default function Page() {
   return (
     <SmoothScroll>
@@ -22,7 +28,7 @@ export default function Page() {
         Skip to content
       </a>
       <SvgDefs />
-      <Header />
+      <Header orgMark={<img {...markImg} alt={event.organiser} />} />
       <main>
         <Hero />
         <Statement />

@@ -6,7 +6,8 @@ import { useMotion } from "@/lib/motion";
 import { LogoMark } from "./svg/Logo";
 import { useScroller } from "./motion/SmoothScroll";
 
-export function Header() {
+/** `orgMark` is the organiser logo, rendered on the server (see app/page.tsx). */
+export function Header({ orgMark }: { orgMark?: React.ReactNode }) {
   const root = useRef<HTMLElement>(null);
   const noRef = useRef<HTMLElement>(null);
   const nameRef = useRef<HTMLSpanElement>(null);
@@ -132,6 +133,9 @@ export function Header() {
               <small>{event.organiserShort}</small>
             </span>
           </a>
+          <span className="org">
+            {orgMark}
+          </span>
           <span className="chap label" aria-hidden="true">
             <b className="num" ref={noRef}>
               {chapters[0].no}

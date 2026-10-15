@@ -2,11 +2,10 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 
 // Loaded on demand by lib/motion (never in the first-load bundle); registered once.
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, SplitText);
+  gsap.registerPlugin(ScrollTrigger);
   gsap.defaults({ ease: "power3.out" });
   // Mobile address-bar show/hide changes innerHeight; don't refresh pins for that.
   ScrollTrigger.config({ ignoreMobileResize: true });
@@ -28,4 +27,4 @@ export const pinType = (): "transform" | "fixed" => (ScrollTrigger.isTouch === 1
 export const layerWhileActive = (targets: gsap.TweenTarget) => (self: ScrollTrigger) =>
   gsap.set(targets, { willChange: self.isActive ? "transform, opacity" : "auto" });
 
-export { gsap, ScrollTrigger, SplitText };
+export { gsap, ScrollTrigger };
