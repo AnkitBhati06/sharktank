@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Serif_Display, JetBrains_Mono, Manrope } from "next/font/google";
-import { seo } from "@/content/event";
+import { config, seo } from "@/content/event";
 import "./globals.css";
 
 const serif = DM_Serif_Display({
@@ -33,15 +33,15 @@ const mono = JetBrains_Mono({
   preload: false,
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");
+// Absolute base for Open Graph / Twitter links. NEXT_PUBLIC_SITE_URL overrides it (e.g. for a staging copy).
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? config.siteUrl;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: seo.title,
   description: seo.description,
-  openGraph: { title: seo.title, description: seo.description, type: "website", locale: "en_IN" },
+  alternates: { canonical: "/" },
+  openGraph: { title: seo.title, description: seo.description, type: "website", locale: "en_IN", url: "/" },
   twitter: { card: "summary_large_image", title: seo.title, description: seo.description },
 };
 

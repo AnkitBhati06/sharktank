@@ -14,6 +14,7 @@
 /* ------------------------------------------------------------------ */
 
 export const config = {
+  siteUrl: "https://sharktank.iiitvecell.in", // the live address (used for link previews)
   registrationUrl: "", // [PLACEHOLDER] Google Form link, e.g. "https://forms.gle/..."
   prizePool: "", // [PLACEHOLDER] e.g. "₹50,000"
   round1Deadline: "2026-10-22T23:59:00+05:30",

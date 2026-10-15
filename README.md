@@ -23,6 +23,7 @@ The four values you will most likely change sit at the top of the file in `confi
 |---|---|
 | `registrationUrl` | Empty: the register button is disabled and reads "Registration form opens soon". Add the Google Form link and it becomes "Open the registration form ↗" (opens in a new tab). |
 | `prizePool` | Empty: File 01 shows a redaction bar and a red "Classified" stamp. Set it (e.g. `"₹50,000"`) and the amount appears in red serif, stamped "Declassified". |
+| `siteUrl` | The live address (`https://sharktank.iiitvecell.in`), used for link previews on WhatsApp, Instagram etc. Change it only if the site moves. |
 | `round1Deadline` | Drives the countdown. When it passes, the heading becomes "Dive 01 has closed." |
 | `contacts[].phone` | Empty: "Number to be added". Fill it in and the number appears as selectable text with a Copy button. |
 
@@ -36,7 +37,9 @@ Redeploy after editing. The page is prerendered at build time.
 
 ## Deploy
 
-**Vercel (recommended):** import the repository and keep the defaults (framework Next.js, `npm run build`). Optionally set `NEXT_PUBLIC_SITE_URL` (e.g. `https://sharktank.example.org`) so Open Graph URLs are absolute. Without it, the Vercel production URL is used.
+**Vercel (recommended):** import the repository and keep the defaults (framework Next.js, `npm run build`). Every push to `main` redeploys the live site; every other branch gets its own preview link.
+
+**Custom domain (`sharktank.iiitvecell.in`):** in Vercel open *Settings → Domains*, add `sharktank.iiitvecell.in`. Then in GoDaddy (*iiitvecell.in → DNS → DNS Records → Add New Record*) add a **CNAME** record with Name `sharktank` and Value `cname.vercel-dns.com` (or the exact value Vercel shows). Leave every other record alone. Vercel issues HTTPS automatically once the record is live. The site's own address for link previews is `config.siteUrl` in `src/content/event.ts`; `NEXT_PUBLIC_SITE_URL` overrides it.
 
 **Any static host:** `npm run build:static` writes a plain static site to `out/` (about 1.4 MB). Upload that folder.
 
