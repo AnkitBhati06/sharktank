@@ -1937,6 +1937,15 @@ footer {
   }
 }
 
+/* split words that move on their own (phones) */
+.fd-date .fa,
+.fd-date .fb,
+.fd-date em,
+.end h2 .sk,
+.end h2 .sw {
+  display: inline-block;
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 1023.98px) {
   .log {
@@ -2014,6 +2023,10 @@ footer {
   }
   .sticky-cta {
     display: flex;
+  }
+  /* each section's top edge casts a soft shadow onto the one it slides over */
+  main > section + section:not(#crew) {
+    box-shadow: 0 -18px 30px -22px rgba(0, 0, 0, 0.45);
   }
   .glass .txt {
     padding: 0 10%;

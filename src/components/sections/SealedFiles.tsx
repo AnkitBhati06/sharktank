@@ -32,7 +32,7 @@ export function SealedFiles() {
           <Rich text={sealed.heading} />
         </h2>
         <div className="classified">
-          <article className="file" data-reveal>
+          <article className="file" data-reveal data-own-lite>
             <span className="tab mono">{sealed.prize.tab}</span>
             <p className="label">{sealed.prize.label}</p>
             <h3>{sealed.prize.title}</h3>
@@ -40,7 +40,7 @@ export function SealedFiles() {
             <p className="note-p">{prize ? sealed.prize.openNote : sealed.prize.sealedNote}</p>
             <span className={`stamp${prize ? " open" : ""}`}>{prize ? "Declassified" : "Classified"}</span>
           </article>
-          <article className="file" data-reveal>
+          <article className="file" data-reveal data-own-lite>
             <span className="tab mono">{sealed.jury.tab}</span>
             <p className="label">{sealed.jury.label}</p>
             <h3>{sealed.jury.title}</h3>

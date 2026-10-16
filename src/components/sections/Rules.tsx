@@ -79,7 +79,7 @@ export function Rules() {
             <Rich text={faq.heading} />
           </h2>
         </div>
-        <div data-reveal>
+        <div data-reveal data-own-lite>
           {faq.items.map((f) => (
             <details key={f.q}>
               <summary>{f.q}</summary>

@@ -36,7 +36,7 @@ function ContactCard({ c }: { c: Contact }) {
   };
 
   return (
-    <div className="card" data-reveal>
+    <div className="card" data-reveal data-own-lite>
       <div className="av" aria-hidden="true">
         {initials}
       </div>
@@ -74,7 +74,7 @@ export function Crew() {
           <Rich text={crew.heading} />
         </h2>
         <div className="crew">
-          <div className="card" data-reveal>
+          <div className="card" data-reveal data-own-lite>
             <p className="label">{crew.venueLabel}</p>
             <h3>{event.venue}</h3>
             <p className="role">{crew.venueNote}</p>

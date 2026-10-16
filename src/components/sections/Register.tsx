@@ -62,7 +62,7 @@ export function Register() {
         </div>
         <ol className="steps">
           {register.steps.map((s) => (
-            <li key={s.label} data-reveal>
+            <li key={s.label} data-reveal data-own-lite>
               <p className="label">{s.label}</p>
               <h3>{s.title}</h3>
               <p>{s.text}</p>

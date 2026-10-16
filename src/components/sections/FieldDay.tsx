@@ -35,10 +35,10 @@ export function FieldDay() {
           {fieldDay.kicker}
         </p>
         <div className="fd-top">
-          <h2 className="fd-date num" id="fieldday-title" aria-label={`${event.finaleDay.label}, Grand Finale`} data-reveal>
-            {event.finaleDay.day}
+          <h2 className="fd-date num" id="fieldday-title" aria-label={`${event.finaleDay.label}, Grand Finale`} data-reveal data-own-lite>
+            <span className="fa">{event.finaleDay.day}</span>
             <em>.</em>
-            {event.finaleDay.month}
+            <span className="fb">{event.finaleDay.month}</span>
           </h2>
           <p className="fd-where label" data-reveal>
             <b>{fieldDay.where}</b>

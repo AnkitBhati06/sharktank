@@ -11,7 +11,9 @@ export function End() {
         <div className="wrap">
           <p className="label">{ending.label}</p>
           <h2 id="end-title" data-reveal>
-            Sink<em>or</em>Swim.
+            <span className="sk">Sink</span>
+            <em>or</em>
+            <span className="sw">Swim.</span>
           </h2>
           <div className="go2">
             <a className="btn btn-ink" href="#register">
