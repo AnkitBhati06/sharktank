@@ -138,9 +138,45 @@ export function DiveLogs() {
         };
       });
 
-      // Everything else (phones, tablets, short screens): a plain list where each
-      // card rises out of the deep and settles as it scrolls in, its plate drifting.
+      // Everything else (phones, tablets, short screens): no pinning, but the same
+      // stacking feel. Each card rises out of the deep as it scrolls in; while the
+      // next card comes up, the previous one lags behind (as if held), shrinks and
+      // dims, so the new card slides over it. Transform/opacity only.
       mm.add("(max-width: 1023.98px) and (prefers-reduced-motion: no-preference), (max-height: 699.98px) and (prefers-reduced-motion: no-preference)", () => {
+        // later cards sit above earlier ones so they cover them
+        cards.forEach((card, i) => gsap.set(card, { zIndex: i + 1 }));
+        cards.forEach((card, i) => {
+          if (i === 0) return;
+          const prev = cards[i - 1];
+          const shade = prev.querySelector(".shade");
+          const tl = gsap.timeline({
+            defaults: { ease: "none", force3D: true, immediateRender: false },
+            scrollTrigger: {
+              trigger: card,
+              start: "top bottom",
+              end: "top 15%",
+              scrub: true,
+              invalidateOnRefresh: true,
+              onToggle: layerWhileActive([prev, shade]),
+            },
+          });
+          // lag = 60% of the distance the new card travels: the old one seems to hold
+          tl.fromTo(prev, { y: 0 }, { y: () => Math.round(innerHeight * 0.85 * 0.6) }, 0).fromTo(shade, { opacity: 0 }, { opacity: 0.6 }, 0);
+        });
+        // Keyboard: focusing something in a covered card scrolls back to where the
+        // next card has not started to slide over it yet.
+        const docTop = (el: HTMLElement) => {
+          let y = 0;
+          for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) y += n.offsetTop;
+          return y;
+        };
+        const onFocus = (e: FocusEvent) => {
+          const i = cards.findIndex((c) => c.contains(e.target as Node));
+          if (i < 0 || i === cards.length - 1) return;
+          const limit = docTop(cards[i + 1]) - innerHeight - 2;
+          if (window.scrollY > limit) window.scrollTo(0, Math.max(0, limit));
+        };
+        box.addEventListener("focusin", onFocus);
         cards.forEach((card, i) => {
           const plate = card.querySelector(".plate-in");
           const tl = gsap.timeline({
@@ -155,11 +191,12 @@ export function DiveLogs() {
           });
           tl.fromTo(
             card,
-            { y: 90, scale: 0.9, rotation: i % 2 ? 2 : -2, opacity: 0.35 },
-            { y: 0, scale: 1, rotation: 0, opacity: 1, ease: "power2.out" },
+            { y: 90, scale: 0.9, rotation: i % 2 ? 2 : -2 },
+            { y: 0, scale: 1, rotation: 0, ease: "power2.out" },
             0,
           ).fromTo(plate, { y: 40 }, { y: 0 }, 0);
         });
+        return () => box.removeEventListener("focusin", onFocus);
       });
 
       return () => mm.revert();
