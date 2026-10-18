@@ -1,5 +1,6 @@
 "use client";
 
+import { registerLink } from "@/content/event";
 import { useRef } from "react";
 import { useMotion } from "@/lib/motion";
 
@@ -31,7 +32,7 @@ export function StickyCta() {
     });
   });
   return (
-    <a ref={ref} className="btn btn-ink sticky-cta" href="#register" tabIndex={-1} aria-hidden="true">
+    <a ref={ref} className="btn btn-ink sticky-cta" {...registerLink} tabIndex={-1} aria-hidden="true">
       Register your team <span className="ar">→</span>
     </a>
   );

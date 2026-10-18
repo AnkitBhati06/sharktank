@@ -15,7 +15,7 @@
 
 export const config = {
   siteUrl: "https://sharktank.iiitvecell.in", // the live address (used for link previews)
-  registrationUrl: "", // [PLACEHOLDER] Google Form link, e.g. "https://forms.gle/..."
+  registrationUrl: "https://unstop.com/o/HvLJCgS", // Unstop listing (registration + round submissions)
   prizePool: "", // [PLACEHOLDER] e.g. "₹50,000"
   round1Deadline: "2026-10-22T23:59:00+05:30",
   instagram: "https://www.instagram.com/iiitvadodara_ecell/",
@@ -24,6 +24,11 @@ export const config = {
     { name: "Harshil Dodia", role: "Junior Secretary, E-Cell", phone: "" }, // [PLACEHOLDER]
   ] as Contact[],
 };
+
+/** Where every "Register" button points: the Unstop listing once set, else the on-page section. */
+export const registerLink = config.registrationUrl.trim()
+  ? ({ href: config.registrationUrl.trim(), target: "_blank", rel: "noopener noreferrer" } as const)
+  : ({ href: "#register" } as const);
 
 /* ------------------------------------------------------------------ */
 /* Types                                                               */
@@ -286,11 +291,11 @@ export const register = {
   heading: "Air left to _jump in._",
   closedHeading: "Dive 01 _has closed._",
   steps: [
-    { label: "Step 01", title: "Register your team", text: "Fill the registration form. 1 to 4 students per team." },
-    { label: "Step 02", title: "Send your deck", text: "18–22 Oct. PDF, named TeamName_CollegeName.pdf." },
+    { label: "Step 01", title: "Register your team", text: "Register on Unstop. 1 to 4 students per team." },
+    { label: "Step 02", title: "Send your deck", text: "18–22 Oct. Upload your PDF on Unstop, named TeamName_CollegeName.pdf." },
     { label: "Step 03", title: "Watch your inbox", text: "Shortlisted teams get Round 2 details by email." },
   ],
-  cta: "Open the registration form",
+  cta: "Register on Unstop",
   ctaSoon: "Registration form opens soon",
   note: "Only for students outside IIIT Vadodara.",
   noteSoon: "The form link will appear here. Only for students outside IIIT Vadodara.",
@@ -359,7 +364,7 @@ export const faq = {
     { q: "Who can take part?", a: "Currently enrolled students from colleges other than IIIT Vadodara. Every member needs a valid college ID." },
     { q: "How big can a team be?", a: "1 to 4 members, and members may come from different colleges. One person can be in only one team." },
     { q: "Does it cost anything?", a: "No. Entry is free." },
-    { q: "What do I submit in Dive 01?", a: "A PDF pitch deck of 10–12 slides covering problem, solution, target market, business model, competition and team, named TeamName_CollegeName.pdf, between 18 and 22 Oct 2026 (11:59 PM IST)." },
+    { q: "What do I submit in Dive 01?", a: "A PDF pitch deck of 10–12 slides covering problem, solution, target market, business model, competition and team, named TeamName_CollegeName.pdf, uploaded on Unstop between 18 and 22 Oct 2026 (11:59 PM IST)." },
     { q: "What is Dive 02?", a: "Shortlisted teams submit a video pitch of up to 3 minutes with at least one member on camera, as an unlisted YouTube or Google Drive link, between 24 and 27 Oct 2026." },
     { q: "When are finalists announced?", a: "On 29 Oct 2026, by email." },
     { q: "What happens on finale day?", a: "On 1 Nov 2026, finalists report at Room 9001 between 9 and 10 AM, then pitch live in Conference Room 9005: 5 minutes of pitch and 3 minutes of jury Q&A. Bring your deck on a pen drive and email it a day before." },

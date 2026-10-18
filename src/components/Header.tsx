@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { chapters, event, menu } from "@/content/event";
+import { chapters, event, menu, registerLink } from "@/content/event";
 import { useMotion } from "@/lib/motion";
 import { LogoMark } from "./svg/Logo";
 import { useScroller } from "./motion/SmoothScroll";
@@ -145,7 +145,7 @@ export function Header({ orgMark }: { orgMark?: React.ReactNode }) {
               <span ref={nameRef}>{chapters[0].name}</span>
             </span>
           </span>
-          <a className="btn btn-ink btn-reg" href="#register">
+          <a className="btn btn-ink btn-reg" {...registerLink}>
             Register
           </a>
           <button

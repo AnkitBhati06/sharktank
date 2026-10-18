@@ -1,6 +1,6 @@
 import { imageProps } from "@/lib/image";
 import ecellLogo from "@/assets/ecell-logo.png";
-import { config, ending, event } from "@/content/event";
+import { config, ending, event, registerLink } from "@/content/event";
 
 const logoImg = imageProps({ src: ecellLogo, alt: event.organiser, height: 150, sizes: "190px" });
 
@@ -16,7 +16,7 @@ export function End() {
             <span className="sw">Swim.</span>
           </h2>
           <div className="go2">
-            <a className="btn btn-ink" href="#register">
+            <a className="btn btn-ink" {...registerLink}>
               Register your team <span className="ar" aria-hidden="true">→</span>
             </a>
             <a className="btn btn-line" href="#logs">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { event } from "@/content/event";
+import { event, registerLink } from "@/content/event";
 import { MQ } from "@/lib/mq";
 import { useMotion } from "@/lib/motion";
 import { useNow, ms } from "@/lib/time";
@@ -195,7 +195,7 @@ export function Hero() {
             <a className="btn btn-ink" href="#logs">
               Begin the descent <span className="ar" aria-hidden="true">→</span>
             </a>
-            <a className="btn btn-line" href="#register">
+            <a className="btn btn-line" {...registerLink}>
               Register your team
             </a>
           </div>
