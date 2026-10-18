@@ -16,12 +16,12 @@
 export const config = {
   siteUrl: "https://sharktank.iiitvecell.in", // the live address (used for link previews)
   registrationUrl: "https://unstop.com/o/HvLJCgS", // Unstop listing (registration + round submissions)
-  prizePool: "", // [PLACEHOLDER] e.g. "₹50,000"
+  prizePool: "₹35,000+", // shown in FILE 01 (empty = "Classified")
   round1Deadline: "2026-10-22T23:59:00+05:30",
   instagram: "https://www.instagram.com/iiitvadodara_ecell/",
   contacts: [
-    { name: "Ankit Bhati", role: "Secretary, E-Cell", phone: "" }, // [PLACEHOLDER]
-    { name: "Harshil Dodia", role: "Junior Secretary, E-Cell", phone: "" }, // [PLACEHOLDER]
+    { name: "Ankit Bhati", role: "Secretary, E-Cell", phone: "", email: "ecell@iiitvadodara.ac.in" },
+    { name: "Harshil Dodia", role: "Junior Secretary, E-Cell", phone: "+91 79847 68223" },
   ] as Contact[],
 };
 
@@ -34,7 +34,7 @@ export const registerLink = config.registrationUrl.trim()
 /* Types                                                               */
 /* ------------------------------------------------------------------ */
 
-export type Contact = { name: string; role: string; phone: string };
+export type Contact = { name: string; role: string; phone: string; email?: string };
 
 export type DiveId = 1 | 2 | 3 | 4;
 
@@ -98,7 +98,7 @@ export const event = {
     complete: "Expedition 2026 complete",
   },
   heroSub: "Grand Finale · IIIT Vadodara",
-  heroNote: "Free entry · Teams of 1–4 · Open to other colleges",
+  heroNote: "Prizes worth ₹35,000+ · Free entry · Teams of 1–4 · Open to all students",
   pitchSeconds: 300,
   qaSeconds: 180,
   finaleDay: { day: "01", month: "11", label: "1 November" },
@@ -128,7 +128,7 @@ export const menu = [
 
 export const statement = {
   label: "The expedition",
-  lead: "For two weeks this October, the tank opens to student founders from campuses beyond ours. Builders, thinkers and makers with an idea worth defending.",
+  lead: "For two weeks this October, the tank opens to student founders from every campus, ours included. Builders, thinkers and makers with an idea worth defending.",
   body: "**Shark Tank IIITV** is the startup pitching competition of E-Cell, IIIT Vadodara. This year it runs as an expedition through four depths: **a pitch deck, a video pitch, the finalist call** and **a live grand finale** in front of the jury. Each dive is harder than the last. Only the strongest ideas come back up.",
 };
 
@@ -274,7 +274,7 @@ export const sealed = {
     label: "Prize pool",
     title: "What the winners take home.",
     sealedNote: "Sealed for now. E-Cell will announce the prize pool before the finale.",
-    openNote: "Total prize pool for Shark Tank IIITV 2026.",
+    openNote: "In prizes for the winners, plus an investment opportunity.",
     denied: "Access denied · Declassified before 01 Nov",
   },
   jury: {
@@ -297,8 +297,8 @@ export const register = {
   ],
   cta: "Register on Unstop",
   ctaSoon: "Registration form opens soon",
-  note: "Only for students outside IIIT Vadodara.",
-  noteSoon: "The form link will appear here. Only for students outside IIIT Vadodara.",
+  note: "Open to all students, IIIT Vadodara included.",
+  noteSoon: "The form link will appear here. Open to all students, IIIT Vadodara included.",
 };
 
 export const rules = {
@@ -361,9 +361,10 @@ export const faq = {
   kicker: "Questions from the shallow end",
   heading: "Ask before _you jump._",
   items: [
-    { q: "Who can take part?", a: "Currently enrolled students from colleges other than IIIT Vadodara. Every member needs a valid college ID." },
+    { q: "Who can take part?", a: "Any currently enrolled student from any college, IIIT Vadodara included. Every member needs a valid college ID." },
     { q: "How big can a team be?", a: "1 to 4 members, and members may come from different colleges. One person can be in only one team." },
     { q: "Does it cost anything?", a: "No. Entry is free." },
+    { q: "What do the winners get?", a: "Prizes worth ₹35,000+ in total, plus an investment opportunity." },
     { q: "What do I submit in Dive 01?", a: "A PDF pitch deck of 10–12 slides covering problem, solution, target market, business model, competition and team, named TeamName_CollegeName.pdf, uploaded on Unstop between 18 and 22 Oct 2026 (11:59 PM IST)." },
     { q: "What is Dive 02?", a: "Shortlisted teams submit a video pitch of up to 3 minutes with at least one member on camera, as an unlisted YouTube or Google Drive link, between 24 and 27 Oct 2026." },
     { q: "When are finalists announced?", a: "On 29 Oct 2026, by email." },

@@ -4,36 +4,53 @@ import { useRef, useState } from "react";
 import { config, crew, event, type Contact } from "@/content/event";
 import { Rich, plain } from "@/lib/rich";
 
-function ContactCard({ c }: { c: Contact }) {
-  const num = useRef<HTMLSpanElement>(null);
+/** One contact detail (phone or email): a link, selectable text and a Copy button. */
+function CopyLine({ kind, value, href, who }: { kind: "number" | "email"; value: string; href: string; who: string }) {
+  const ref = useRef<HTMLAnchorElement>(null);
   const [state, setState] = useState<"idle" | "copied" | "selected">("idle");
-  const phone = c.phone.trim();
-  const initials = c.name
-    .split(/\s+/)
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 2);
-
   const selectText = () => {
-    const el = num.current;
+    const el = ref.current;
     if (!el) return;
     const r = document.createRange();
     r.selectNodeContents(el);
-    const s = window.getSelection();
-    s?.removeAllRanges();
-    s?.addRange(r);
+    const sel = window.getSelection();
+    sel?.removeAllRanges();
+    sel?.addRange(r);
     setState("selected");
   };
   const copy = async () => {
     try {
       if (!navigator.clipboard) throw new Error("no clipboard");
-      await navigator.clipboard.writeText(phone);
+      await navigator.clipboard.writeText(value);
       setState("copied");
     } catch {
       selectText();
     }
     window.setTimeout(() => setState("idle"), 1800);
   };
+  return (
+    <div className="ph">
+      <a ref={ref} className={`num-sel${kind === "number" ? " num" : ""}`} href={href}>
+        {value}
+      </a>
+      <button className="cp" type="button" onClick={copy} aria-label={`Copy ${who}'s ${kind}`}>
+        {state === "copied" ? "Copied" : state === "selected" ? "Selected" : "Copy"}
+      </button>
+      <span className="sr-only" aria-live="polite">
+        {state === "copied" ? `${kind === "number" ? "Number" : "Email"} copied` : state === "selected" ? "Selected, press copy on your device" : ""}
+      </span>
+    </div>
+  );
+}
+
+function ContactCard({ c }: { c: Contact }) {
+  const phone = c.phone.trim();
+  const email = (c.email ?? "").trim();
+  const initials = c.name
+    .split(/\s+/)
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2);
 
   return (
     <div className="card" data-reveal data-own-lite>
@@ -44,21 +61,13 @@ function ContactCard({ c }: { c: Contact }) {
         <h3>{c.name}</h3>
         <p className="role">{c.role}</p>
       </div>
-      <div className="ph">
-        {phone ? (
-          <>
-            <span ref={num} className="num-sel num">
-              {phone}
-            </span>
-            <button className="cp" type="button" onClick={copy} aria-label={`Copy ${c.name}'s number`}>
-              {state === "copied" ? "Copied" : state === "selected" ? "Selected" : "Copy"}
-            </button>
-            <span className="sr-only" aria-live="polite">
-              {state === "copied" ? "Number copied" : state === "selected" ? "Number selected, press copy on your device" : ""}
-            </span>
-          </>
-        ) : (
-          <span className="tba">{crew.phoneMissing}</span>
+      <div className="ph-list">
+        {email && <CopyLine kind="email" value={email} href={`mailto:${email}`} who={c.name} />}
+        {phone && <CopyLine kind="number" value={phone} href={`tel:${phone.replace(/[^+\d]/g, "")}`} who={c.name} />}
+        {!email && !phone && (
+          <div className="ph">
+            <span className="tba">{crew.phoneMissing}</span>
+          </div>
         )}
       </div>
     </div>

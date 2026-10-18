@@ -1775,6 +1775,19 @@ button {
 .card > .label {
   color: var(--muted-t);
 }
+.card .ph-list {
+  margin-top: auto;
+  display: grid;
+}
+.card .ph-list .ph {
+  margin-top: 0;
+}
+.card .ph a.num-sel {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  overflow-wrap: anywhere;
+}
 .card .ph {
   display: flex;
   flex-wrap: wrap;
